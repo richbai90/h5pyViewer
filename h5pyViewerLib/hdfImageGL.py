@@ -16,8 +16,8 @@ if __name__ == '__main__':
 import wx
 import os,h5py
 import numpy as np
-import utilities as ut
-from GLCanvasImg import *
+from . import utilities as ut
+from .GLCanvasImg import *
 
 class HdfImageGLFrame(wx.Frame):
   def __init__(self, parent, title, hid):

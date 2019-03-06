@@ -75,32 +75,32 @@ def getVersion():
     #gitcmt=res[0][:7]
     p = subprocess.Popen('git describe --match ''v*.*.*'' --long', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     retval = p.wait()
-    res=p.stdout.readline()
+    res=str(p.stdout.readline())
     res=res[1:-1].rsplit('-',1)
     ver=res[0].replace('-','.')
     gitcmt=res[1][1:]
-  print ':'+ver+':'+gitcmt+':'
-  return (ver,gitcmt)
+  print(':{}:{}:'.format( ver, gitcmt))
+  return ( ver, gitcmt)
 
 class MyINSTALL (distutils.command.install.install):
     def run(self):
         distutils.command.install.install.run(self)
-        print 'post_install_message'
+        print('post_install_message')
 
 class MyINSTALL_LIB (distutils.command.install_lib.install_lib):
   def run(self):
-    print 'MyINSTALL_LIB.run()'
+    print('MyINSTALL_LIB.run()')
     distutils.command.install_lib.install_lib.run(self)
-    instDir=os.path.join(self.install_dir,'h5pyViewer')
+    instDir=os.path.join(self.install_dir,'h5pyViewerLib')
     binDir=self.distribution.command_obj['install'].install_scripts
-    print 'instDir',instDir,'binDir',binDir
+    print(('instDir',instDir,'binDir',binDir))
     if platform.system()=='Linux':
-      mod=0755
+      mod=0o755
       for fn in('h5pyViewer','hdfAttrib','hdfGrid','hdfImageGL','hdfImage','hdfTree'):
         fnInst=os.path.join(instDir,fn+'.py')
         fnBin=os.path.join(binDir,fn)
-        print 'chmod %o '%mod+fnInst
-        print 'symlink %s->%s '%(fnInst,fnBin)
+        print(('chmod %o '%mod+fnInst))
+        print(('symlink %s->%s '%(fnInst,fnBin)))
         os.chmod(fnInst,mod)
         if os.path.islink(fnBin):
           os.unlink(fnBin)
@@ -124,9 +124,9 @@ def runSetup(**kv):
         'long_description':open('README.rst', 'r').read(),
         'platforms'   : ['Linux','Windows'],
         #'py_modules'  :['libDetXR', 'cbfParser'],
-        'packages'    :['h5pyViewer'],
+        'packages'    :['h5pyViewerLib'],
         #'package_dir' :{'h5pyViewer':'.'},
-        'package_data':{'h5pyViewer': ['images/*.png','images/*.ico']},
+        'package_data':{'h5pyViewerLib': ['images/*.png','images/*.ico']},
         #'requires' requires: h5py==2.0.1 libDetXR==0.0.0.6 numpy==1.7.1 matplotlib==1.2.0
         'requires' : ['ctypes','h5py','numpy','matplotlib']
       }
@@ -134,7 +134,7 @@ def runSetup(**kv):
     args.update(kv)
   distutils.core.setup(**args)
 
-  print 'done'
+  print('done')
   pass
 
 def main():

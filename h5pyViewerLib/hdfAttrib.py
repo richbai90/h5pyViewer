@@ -12,7 +12,7 @@ implements an attribute view of a hdf5 dataset.
 import os
 import wx,h5py
 import numpy as np
-from hdfGrid import *
+from .hdfGrid import *
 
 def GetAttrVal(aid):
   rtdt = h5py._hl.dataset.readtime_dtype(aid.dtype, [])
@@ -42,14 +42,14 @@ class HdfAttrListCtrl(wx.ListCtrl):
 
     for idxAttr in range(numAttr):
       aid=h5py.h5a.open(hid,index=idxAttr)
-      if aid.name.startswith('_u_'):
+      if aid.name.startswith(b'_u_'):
         continue
       idxItem=self.InsertStringItem(idxAttr, aid.name)
       val=GetAttrVal(aid)
       self.SetStringItem(idxItem, 1, str(val))
       #print idxAttr,idxItem,aid,aid.name,val
       try:
-        aidUnit=h5py.h5a.open(hid,'_u_'+aid.name)
+        aidUnit = h5py.h5a.open( hid, '_u_{}'.format(aid.name).encode('utf-8'))
       except KeyError as e:
         pass
       else:
@@ -74,7 +74,7 @@ class HdfAttrListCtrl(wx.ListCtrl):
     aid=h5py.h5a.open(hid,index=event.Data)
     val=GetAttrVal(aid)
     if type(val)!=np.ndarray:
-      print val
+      print(val)
       return
     frame=HdfGridFrame(self,aid.name,val)
     frame.Show(True)
@@ -90,7 +90,7 @@ class HdfAttribFrame(wx.Frame):
     self.Centre()
 
 if __name__ == '__main__':
-  import utilities as ut
+  from . import utilities as ut
   import os,sys,argparse #since python 2.7
   def GetParser(required=True):
     fnHDF='/scratch/detectorData/e14472/scan_00030-00033.hdf5'

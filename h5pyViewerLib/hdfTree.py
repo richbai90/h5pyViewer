@@ -88,7 +88,7 @@ class HdfTreeCtrl(wx.TreeCtrl):
       wxCld,cookie=self.GetNextChild(wxNode,cookie)
 
 if __name__ == '__main__':
-  import utilities as ut
+  from . import utilities as ut
   import os,sys,argparse #since python 2.7
   def GetParser(required=True):
     fnHDF='/scratch/detectorData/e14472_00033.hdf5'

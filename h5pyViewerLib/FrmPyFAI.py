@@ -22,12 +22,12 @@ if __name__ == '__main__':
 
 import os,h5py
 import numpy as np
-import utilities as ut
+from . import utilities as ut
 from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
 import os,h5py
-from GLCanvasImg import *
+from .GLCanvasImg import *
 import pyFAI
-from hdfImageGL import HdfImageGLFrame
+from .hdfImageGL import HdfImageGLFrame
 from glumpy.image.texture import Texture
 from scipy import ndimage as ndi
 
@@ -195,7 +195,7 @@ class HdfPyFAIFrame(HdfImageGLFrame):
 
     imgPolar,theta,chi=self.ai.xrpd2(raw,self.numPtTh,self.numPtCh)
     canvas.data=imgPolar
-    print imgPolar.shape
+    print(imgPolar.shape)
 
   def BuildMenu(self):
     HdfImageGLFrame.BuildMenu(self)
@@ -281,7 +281,7 @@ class DlgSetupPyFAI(wx.Dialog):
     sizer.Fit(self)
 
   def OnModify(self, event):
-    print 'OnModify'
+    print('OnModify')
     frm=self.GetParent()
     ds=frm.dataSet
     canvas=frm.canvas
@@ -301,7 +301,7 @@ class DlgSetupPyFAI(wx.Dialog):
       glImg._data=canvas.GetTxrData()
       glImg._texture=Texture(glImg._data)
       #self.glImg=glImg=glumpy.image.Image(txrData, colormap=colMap,vmin=txrRng[0], vmax=txrRng[1])
-      print canvas.data.shape,glImg.data.shape
+      print(canvas.data.shape,glImg.data.shape)
     glImg.update()
     canvas.OnPaint(None)#force to repaint, Refresh and Update do not force !
     frm.Refresh(False)

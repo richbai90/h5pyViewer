@@ -12,7 +12,7 @@ implements a grid view classe to show 'excel-like'-tables of a hdf5 dataset.
 import wx,h5py,os
 import wx.grid
 import numpy as np
-import utilities as ut
+from . import utilities as ut
 
 class DlgFormatSetup(wx.Dialog):
   def __init__(self,parent,fmt):
@@ -190,7 +190,7 @@ class HdfGridFrame(wx.Frame):
     elif t==np.ndarray:
       data=hid
     else:
-      raise(TypeError('unhandled type'))
+      raise TypeError
     grid = Grid(pan, data)
 
     tbl=grid.GetTable()
@@ -248,12 +248,12 @@ class HdfGridFrame(wx.Frame):
     if event.ShiftDown():
       col=event.RowOrCol
       sz=self.grid.GetColSize(col)
-      print 'OnColSize',col,sz
+      print('OnColSize',col,sz)
       self.grid.SetDefaultColSize(sz, True)   
       self.grid.ForceRefresh()    
     
   def OnSetFormat(self,event):
-    print 'OnSetFormat'
+    print('OnSetFormat')
     
     fmt=getattr(self.grid.Table,'cellFormat','')
     dlg=DlgFormatSetup(self,fmt)
@@ -298,7 +298,7 @@ if __name__ == '__main__':
                 ('array l*m*n','/scratch/detectorData/e14472/scan_00033.hdf5','entry/data/pilatus_1'),
                 ('array n','/scratch/detectorData/e14472/scan_00033.hdf5','entry/data/pilatus_1_info'))
 
-    epilog='Examples:'+''.join(map(lambda s:'\n # '+s[0]+' #'+cmd+'--hdfFile %s --elem %s'%s[1:],exampleCmd))
+    epilog='Examples:'+''.join(['\n # '+s[0]+' #'+cmd+'--hdfFile %s --elem %s'%s[1:] for s in exampleCmd])
    
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,
                                      description=__doc__,
