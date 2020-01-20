@@ -123,9 +123,9 @@ class HdfTreePopupMenu(wx.Menu):
     frame.Show(True)
 
   def OnShowRoiStat(self, event):
-    wxTree,wxNode=self.wxObjSrc
-    lbl=wxTree.GetItemText(wxNode)
-    hid=wxTree.GetPyData(wxNode)
+    wxTree, wxNode = self.wxObjSrc
+    lbl = wxTree.GetItemText(wxNode)
+    hid = wxTree.GetPyData(wxNode)
     if type(hid)==tuple: hid=hid[0] #external link->get dataset
     dlg = wx.FileDialog(wxTree, "Choose valid mask file (e.g. pilatus_valid_mask.mat)", os.getcwd(), '','MATLAB files (*.mat)|*.mat|all (*.*)|*.*', wx.FD_OPEN|wx.FD_CHANGE_DIR)
     if dlg.ShowModal() == wx.ID_OK:
@@ -136,9 +136,10 @@ class HdfTreePopupMenu(wx.Menu):
     dlg = wx.FileDialog(wxTree, "Choose ROI mask file (e.g. pilatus_integration_mask.mat)", os.getcwd(), '','MATLAB files (*.mat)|*.mat|all (*.*)|*.*', wx.FD_OPEN|wx.FD_CHANGE_DIR)
     if dlg.ShowModal() == wx.ID_OK:
       fnIntegMsk = dlg.GetPath()
-      print('OnOpen',fnIntegMsk)
+      print('OnOpen', fnIntegMsk)
     dlg.Destroy()
-    if not fnIntegMsk: return
+    if not fnIntegMsk:
+        return
     #fnMatRoi='/scratch/detectorData/cSAXS_2013_10_e14608_georgiadis_3D_for_Marianne/analysis/data/pilatus_integration_mask.mat'
     frame=ProcRoiStatFrame(wxTree,lbl,hid,fnValMsk,fnIntegMsk)
     frame.Show(True)
@@ -303,18 +304,15 @@ class HdfViewerFrame(wx.Frame):
     if wxTree.GetRootItem()==wxNodeParent:
       return wxTree.GetItemText(wxNode)
     else:
-      return HdfViewerFrame.GetPath(wxTree,wxNodeParent)+'/'+wxTree.GetItemText(wxNode)
+      return HdfViewerFrame.GetPath(wxTree, wxNodeParent)+'/'+wxTree.GetItemText(wxNode)
 
   @staticmethod
-  def GetPropertyStr(wxTree,wxNode):
+  def GetPropertyStr(wxTree, wxNode):
 
-    path=str(HdfViewerFrame.GetPath(wxTree,wxNode))
+    path = str(HdfViewerFrame.GetPath(wxTree, wxNode))
 
-    hidStr=wxTree.GetItemText(wxNode)
-    hid=wxTree.GetPyData(wxNode)
-    #o=wxTree.GetItemData(wxNode)
-    #print o.Data,wxTree.GetPyData(wxNode)
-    #if type(gid)==h5py.h5g.GroupID:
+    hidStr = wxTree.GetItemText(wxNode)
+    hid = wxTree.GetItemData(wxNode)
     txt=path+'\n'
     t=type(hid)
     if t==tuple:
@@ -335,9 +333,9 @@ class HdfViewerFrame(wx.Frame):
     txt+='addr:%d fileno:%d refCnt:%d\n'%(objInf.addr,objInf.fileno, objInf.rc)
     try:
       wxNodeParent=wxTree.GetItemParent(wxNode)
-      txtParent=wxTree.GetItemText(wxNode)
-      dataParent=wxTree.GetPyData(wxNode)
-      gid=wxTree.GetPyData(wxNodeParent)
+      txtParent = wxTree.GetItemText(wxNode)
+      dataParent = wxTree.GetItemData(wxNode)
+      gid = wxTree.GetItemData(wxNodeParent)
       softLnk=gid.get_linkval(hidStr)
     except BaseException as e:
       pass

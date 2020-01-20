@@ -54,7 +54,7 @@ class HdfTreeCtrl(wx.TreeCtrl):
             image=2
         else:
           image=-1
-      wxNode = self.AppendItem(wxParent, hidStr,image=image,data=wx.TreeItemData(hid))
+      wxNode = self.AppendItem(wxParent, hidStr, image=image, data=hid)
       if t==h5py.h5g.GroupID:
         self._ShowHirarchy(wxNode,hid,lvl+1)
 
@@ -68,7 +68,7 @@ class HdfTreeCtrl(wx.TreeCtrl):
     else:
       txt='root'
     self.DeleteAllItems()
-    wxNode = self.AddRoot(txt,image=0,data=wx.TreeItemData(hid))
+    wxNode = self.AddRoot(txt, image=0, data=hid)
     self._ShowHirarchy(wxNode,hid,0)
 
     #self.ExpandAll()
