@@ -20,3 +20,10 @@ Screenshots
 -----------
 .. image:: https://raw.github.com/ganymede42/h5pyViewer/master/screenshot/scr1.png
 
+TODO:
+---
+Clean up
+------------
+
+
+
