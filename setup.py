@@ -85,7 +85,7 @@ def getVersion():
         retval = p.wait()
         res = str(p.stdout.readline()).strip()
         res = res[1:-1].rsplit("-", 1)
-        ver = res[0].replace("-", ".").lstrip("v")
+        ver = res[0].replace("-", ".").lstrip("'v")
         gitcmt = res[1][1:]
     print(":{}:{}:".format(ver, gitcmt))
     return (ver, gitcmt)
